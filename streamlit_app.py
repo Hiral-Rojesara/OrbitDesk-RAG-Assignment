@@ -351,5 +351,4 @@ FAISS Retrieval
 Response Generation
      ↓
 Structured JSON Output
-'''
 """)
