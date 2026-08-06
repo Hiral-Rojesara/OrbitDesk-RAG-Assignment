@@ -3,7 +3,7 @@ from graph import OrbitDeskGraph
 import time
 
 # --------------------------------------------------
-# Page Configuration
+# PAGE CONFIG
 # --------------------------------------------------
 
 st.set_page_config(
@@ -12,12 +12,50 @@ st.set_page_config(
     layout="wide"
 )
 
-st.caption(
-    "AI Engineer Assignment • RAG Pipeline • Semantic Search • Enterprise Support Automation"
-)
+# --------------------------------------------------
+# CUSTOM CSS
+# --------------------------------------------------
+
+st.markdown("""
+<style>
+
+.main {
+    padding-top: 1rem;
+}
+
+.metric-card {
+    background-color: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    border: 1px solid #374151;
+}
+
+.answer-box {
+    padding: 20px;
+    border-left: 6px solid #2563eb;
+    background-color: #f8fafc;
+    border-radius: 10px;
+}
+
+.hero {
+    padding: 30px;
+    border-radius: 16px;
+    background: linear-gradient(90deg,#0f172a,#1e293b);
+    color: white;
+}
+
+.small-text {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # --------------------------------------------------
-# Load Graph Once
+# LOAD GRAPH
 # --------------------------------------------------
 
 @st.cache_resource
@@ -27,64 +65,74 @@ def load_graph():
 graph = load_graph()
 
 # --------------------------------------------------
-# Header
+# HERO SECTION
 # --------------------------------------------------
 
 st.markdown("""
-# 🤖 OrbitDesk AI Support Agent
+<div class="hero">
+    <h1>🤖 OrbitDesk AI Support Agent</h1>
+    <h4>Enterprise Retrieval-Augmented Support Assistant</h4>
+    <p>
+    Powered by LangGraph • FAISS • Sentence Transformers • Pydantic
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-### Enterprise Retrieval-Augmented Support Assistant
-
-Powered by:
-
-- LangGraph
-- FAISS Vector Search
-- Sentence Transformers
-- Pydantic Validation
-- Semantic Knowledge Retrieval
-
-Designed to classify support requests, retrieve relevant knowledge-base content, and generate structured support responses.
-""")
+st.caption(
+    "AI Engineer Assignment • Knowledge Grounded Responses • Enterprise Support Automation"
+)
 
 st.markdown("---")
 
 # --------------------------------------------------
-# Sidebar
+# SIDEBAR
 # --------------------------------------------------
 
 with st.sidebar:
 
-    st.header("System Overview")
+    st.title("⚙️ System Overview")
 
     st.info(
         """
-        OrbitDesk AI Support Agent helps support teams by:
+        OrbitDesk AI Support Agent performs:
 
-        • Classifying support requests
+        • Query Classification
 
-        • Retrieving relevant KB articles
+        • Semantic Retrieval
 
-        • Generating structured responses
+        • Knowledge Grounding
 
-        • Detecting escalation scenarios
+        • Escalation Detection
 
-        • Providing confidence scores
+        • Clarification Handling
 
-        • Returning validated JSON outputs
+        • Structured JSON Generation
         """
     )
 
     st.divider()
 
-    st.subheader("System Metrics")
+    st.subheader("Technology Stack")
 
-    st.metric("Knowledge Base Files", "10")
-    st.metric("Embedding Model", "MiniLM-L6-v2")
-    st.metric("Vector Store", "FAISS")
+    st.markdown("""
+    - LangGraph
+    - FAISS
+    - Sentence Transformers
+    - HuggingFace Embeddings
+    - Pydantic
+    """)
 
     st.divider()
 
-    st.subheader("Sample Queries")
+    st.subheader("Knowledge Base")
+
+    st.metric("KB Documents", "10")
+    st.metric("Vector Store", "FAISS")
+    st.metric("Embedding Model", "MiniLM-L6-v2")
+
+    st.divider()
+
+    st.subheader("Try Example Queries")
 
     st.code(
         "I am a read-only Viewer. Can I create an API credential?"
@@ -99,13 +147,13 @@ with st.sidebar:
     )
 
 # --------------------------------------------------
-# Query Input
+# QUERY SECTION
 # --------------------------------------------------
 
-st.subheader("Submit Support Request")
+st.subheader("📝 Submit Support Request")
 
 query = st.text_area(
-    label="Support Request",
+    "",
     placeholder="Describe your issue, question, or support request here...",
     height=180
 )
@@ -114,12 +162,12 @@ col1, col2 = st.columns([1, 5])
 
 with col1:
     run_button = st.button(
-        "Analyze",
+        "🚀 Analyze",
         use_container_width=True
     )
 
 # --------------------------------------------------
-# Processing
+# PROCESS QUERY
 # --------------------------------------------------
 
 if run_button:
@@ -133,7 +181,7 @@ if run_button:
         st.stop()
 
     with st.spinner(
-        "Running classification, retrieval, and response generation..."
+        "Running classification, retrieval and response generation..."
     ):
 
         start_time = time.time()
@@ -152,50 +200,59 @@ if run_button:
     st.markdown("---")
 
     # --------------------------------------------------
-    # Metrics Dashboard
+    # DASHBOARD METRICS
     # --------------------------------------------------
 
-    m1, m2, m3, m4 = st.columns(4)
+    c1, c2, c3, c4 = st.columns(4)
 
-    with m1:
+    with c1:
         st.metric(
             "Classification",
-            response.classification
+            str(response.classification)
         )
 
-    with m2:
+    with c2:
         st.metric(
             "Confidence",
             f"{response.confidence:.2f}"
         )
 
-    with m3:
+    with c3:
         st.metric(
             "Human Escalation",
             "Yes" if response.requires_human else "No"
         )
 
-    with m4:
+    with c4:
         st.metric(
-            "Sources Retrieved",
+            "Sources",
             len(response.sources)
         )
-
-    # --------------------------------------------------
-    # Generated Response
-    # --------------------------------------------------
-
-    st.markdown("## Generated Response")
-
-    st.write(response.answer)
 
     st.markdown("---")
 
     # --------------------------------------------------
-    # Retrieved Sources
+    # GENERATED RESPONSE
     # --------------------------------------------------
 
-    st.markdown("## Retrieved Knowledge Sources")
+    st.markdown("## 📌 Generated Response")
+
+    st.markdown(
+        f"""
+        <div class="answer-box">
+        {response.answer}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("---")
+
+    # --------------------------------------------------
+    # SOURCES
+    # --------------------------------------------------
+
+    st.markdown("## 📚 Retrieved Knowledge Sources")
 
     if response.sources:
 
@@ -217,71 +274,80 @@ if run_button:
             )
 
             with st.expander(
-                f"Source {idx}: {source_id}"
+                f"Source {idx} • {source_id}"
             ):
                 st.write(passage)
 
     else:
 
         st.info(
-            "No supporting documents were retrieved."
+            "No supporting sources were retrieved."
         )
 
     st.markdown("---")
 
     # --------------------------------------------------
-    # Reasoning Section
+    # DECISION REASON
     # --------------------------------------------------
 
-    st.markdown("## Decision Reason")
+    st.markdown("## 🧠 Decision Reason")
 
     st.info(
         response.reason
     )
 
     # --------------------------------------------------
-    # Clarification
+    # CLARIFICATION
     # --------------------------------------------------
 
     if response.clarification_question:
 
-        st.markdown("## Clarification Required")
+        st.markdown("## ❓ Clarification Required")
 
         st.warning(
             response.clarification_question
         )
 
     # --------------------------------------------------
-    # Warnings
+    # WARNINGS
     # --------------------------------------------------
 
     if response.warnings:
 
-        st.markdown("## Warnings")
+        st.markdown("## ⚠️ Warnings")
 
         for warning in response.warnings:
-
             st.warning(warning)
 
     st.markdown("---")
 
     # --------------------------------------------------
-    # JSON Output
+    # JSON OUTPUT
     # --------------------------------------------------
 
     with st.expander(
-        "View Structured JSON Output"
+        "🔍 View Structured JSON Output"
     ):
         st.json(
             response.model_dump()
         )
 
 # --------------------------------------------------
-# Footer
+# ARCHITECTURE SECTION
 # --------------------------------------------------
 
 st.markdown("---")
 
-st.caption(
-    "Built for the OrbitDesk AI Engineer Assignment • LangGraph • FAISS • Sentence Transformers • Pydantic"
-)
+st.markdown("""
+## 🏗️ System Architecture
+
+```text
+User Query
+     ↓
+Classification
+     ↓
+FAISS Retrieval
+     ↓
+Response Generation
+     ↓
+Structured JSON Output
