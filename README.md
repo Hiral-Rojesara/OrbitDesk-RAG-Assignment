@@ -159,30 +159,15 @@ sentence-transformers/all-MiniLM-L6-v2
 
 ---
 
-## 📦 Installation
+## 🚀 Live Demo
 
-Clone the repository:
+🔗 https://orbitdesk-rag-assignment-pbokbqinx8jlgygspfb3v8.streamlit.app/
 
-```bash
-git clone <https://github.com/Hiral-Rojesara/OrbitDesk-RAG-Assignment>
-cd OrbitDesk-RAG-Assignment
-```
+## 📂 GitHub Repository
 
-Install dependencies:
+🔗 https://github.com/Hiral-Rojesara/OrbitDesk-RAG-Assignment
 
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 🚀 Run Application
-
-### CLI Mode
-
-```bash
-python app.py
-```
+-----
 
 ### Graph Execution Example
 
